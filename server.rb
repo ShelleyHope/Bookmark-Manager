@@ -51,29 +51,38 @@ get '/tags/:text' do
   erb :index
 end
 
-
 get	'/users/new' do
 	@user = User.new
-# note the view is in views/users/new.erb 
-# we need the quotes because otherwise
-# ruby would divide the symbol :users by the
-# variable new (which makes no sense)
-erb :"users/new"
+  erb :"users/new"
 end
 
 post '/users' do
-  @user = User.new(:email => params[:email], 
-              :password => params[:password],
-              :password_confirmation => params[:password_confirmation])  
-   if @user.save
+  @user = User.new(:email => params[:email], :password => params[:password],
+  :password_confirmation => params[:password_confirmation])  
+  if @user.save
     session[:user_id] = @user.id
     redirect to('/')
   else
-  flash[:notice] = "Sorry, your passwords don't match"
-  erb :"users/new"
+    flash.now[:errors] = @user.errors.full_messages
+    erb :"users/new"
   end
 end
 
+get '/sessions/new' do
+  erb :"sessions/new"
+end
+
+post '/sessions' do
+  email, password = params[:email], params[:password]
+  user = User.authenticate(email, password)
+  if user
+    session[:user_id] = user.id
+    redirect to('/')
+  else
+    flash[:errors] = ["The email or password is incorrect"]
+    erb :"sessions/new"
+  end
+end
  
 
 
