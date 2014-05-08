@@ -1,11 +1,11 @@
 post '/links' do
   url = params["url"]
   title = params["title"]
-  tags = params["tags"].split(" ").map do |tag|
-  # this will either find this tag or create
-  # it if it doesn't exist already
-  Tag.first_or_create(:text => tag)
+  tags = params["tags"].split(" ").map{|tag| Tag.first_or_create(:text => tag)}
+  Link.create(:url => url, :title => title, :tags => tags)
+  redirect to('/')
 end
-Link.create(:url => url, :title => title, :tags => tags)
-redirect to('/')
+
+get '/links/new' do
+  erb :"links/new"
 end

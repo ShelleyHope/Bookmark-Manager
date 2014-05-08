@@ -33,7 +33,7 @@ class User
   # and password_confirmation are the same
   # read more about it in the documentation
   # http://datamapper.org/docs/validations.html
-  validates_confirmation_of :password
+  validates_confirmation_of :password, :message => "Sorry, your passwords don't match"
 
   def self.authenticate(email, password)
     # that's the user who is trying to sign in
