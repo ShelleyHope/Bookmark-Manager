@@ -1,8 +1,4 @@
 require 'spec_helper'
-require_relative 'helpers/session'
-
-include SessionHelpers
-
 
 feature "User adds a new link" do
   

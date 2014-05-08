@@ -1,7 +1,4 @@
 require 'spec_helper'
-require_relative 'helpers/session'
-
-include SessionHelpers
 
 feature "User browses the list of links" do
 
